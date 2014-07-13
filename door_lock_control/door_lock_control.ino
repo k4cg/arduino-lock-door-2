@@ -16,12 +16,29 @@ Servo myservo;
 
 void setup() {
   Serial.begin(SERIAL_BPS);
-  myservo.attach(SERVOMOTOR_PIN);
+  Serial.println("setup begins");
+  Serial.print("  Serial communication port opened at ");
+  Serial.println(SERIAL_BPS);
 
-  // Secure in case of emergency
+  myservo.attach(SERVOMOTOR_PIN);
+  Serial.print("  Servo attached to pin ");
+  Serial.println(SERVOMOTOR_PIN);
+  Serial.println();
+
+  Serial.println("  Secure in case of emergency");
+  Serial.print("  Set servo to ");
+  Serial.print(OPEN_POSITION);
+  Serial.println(" (open)");
   myservo.write(OPEN_POSITION); // Unlock the door ...
+  Serial.println("  Waiting 5 seconds");
   delay(5000); // ... for 5 seconds ...
-  myservo.write(CLOSE_POSITION); // ... and close the door.
+  Serial.print("  Set servo to ");
+  Serial.print(CLOSE_POSITION);
+  Serial.println(" (close)");
+  myservo.write(CLOSE_POSITION); // ... and lock the door.
+  delay(500);
+
+  Serial.println("setup ends");
 }
 
 void loop() {}
