@@ -13,6 +13,7 @@
 #define CLOSE_POSITION 25 // degrees.
 
 Servo myservo;
+String command = ""; // open | close
 
 void setup() {
   Serial.begin(SERIAL_BPS);
@@ -39,6 +40,39 @@ void setup() {
   delay(500);
 
   Serial.println("setup ends");
+  Serial.println();
 }
 
-void loop() {}
+void loop() {
+  char letter;
+
+  if (Serial.available() > 0) {
+    letter = Serial.read(); // 1 Byte = 1 char = 1 letter.
+    Serial.print("\"");
+    Serial.print(command);
+    Serial.print("\" < '");
+    Serial.print(letter);
+    command.concat(letter);
+    Serial.print("' (\"");
+    Serial.print(command);
+    Serial.print("\", ");
+    Serial.print(command.length());
+    Serial.println(")");
+
+    if (command == "close") {
+      Serial.println("Motor on (close)");
+      myservo.write(CLOSE_POSITION);
+      delay(500);
+    }
+
+    if (command.length() > 4) {
+      command = command.substring(1);
+    }
+
+    if (command == "open") {
+      Serial.println("Motor on (open)");
+      myservo.write(OPEN_POSITION);
+      delay(500);
+    }
+  }
+}
