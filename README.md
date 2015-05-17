@@ -9,4 +9,4 @@ An arduino program to control the lock of a door (open and close).
 
 [Link to web page](http://k4cg.github.io/arduino-lock-door/)
 
-[Link to the project "MatoLock"](https://k4cg.org/k4cg:projekte:matolock) (Nürnberg, Germany) Here was the project used to control a fridge door.
+[Link to the project "MatoLock"](https://k4cg.org/index.php?title=Projekt:MatoLock) (Nürnberg, Germany) Here was the project used to control a fridge door.
