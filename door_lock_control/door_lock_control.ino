@@ -3,16 +3,13 @@
 #define SERIAL_BPS 9600 // bits per second.
 #define OPEN_POSITION 60 // degrees.
 #define CLOSE_POSITION 150 // degrees.
+#define WAIT_LONG 7000
+#define WAIT_SHORT 200
+#define CLOSE_DELAY 750
+#define PUSH_BUTTON 2
+
 Servo myservo;
 String command = ""; // available commands: "open"
-
-int WAIT_LONG = 7000;
-int WAIT_SHORT = 200;
-
-int CLOSE_DELAY = 750;
-
-int pushButton = 2;
-
 int buttonState; // 0 = closed; 1 = open
 int previousButtonState;
 int openState = 0;
@@ -25,7 +22,7 @@ void setup() {
   myservo.write(CLOSE_POSITION);
   delay(WAIT_SHORT);
   
-  pinMode(pushButton, INPUT_PULLUP);
+  pinMode(PUSH_BUTTON, INPUT_PULLUP);
 }
 
 void loop() {
@@ -33,10 +30,10 @@ void loop() {
   previousButtonState = buttonState;
 
   // when door gets unlocked (was closed) keep door unlocked until it is opened
-  buttonState = digitalRead(pushButton);
+  buttonState = digitalRead(PUSH_BUTTON);
   while(buttonState == 0 && openState == 1) {
     delay(WAIT_SHORT);
-    buttonState = digitalRead(pushButton);
+    buttonState = digitalRead(PUSH_BUTTON);
     delay(CLOSE_DELAY);
   }
 
