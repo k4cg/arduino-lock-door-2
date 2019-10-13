@@ -18,8 +18,10 @@ void setup() {
   Serial.begin(SERIAL_BPS);
   myservo.attach(SERVOMOTOR_PIN);
   myservo.write(OPEN_POSITION);
+  buttonState = 1;
   delay(WAIT_LONG);
   myservo.write(CLOSE_POSITION);
+  buttonState = 0;
   delay(WAIT_SHORT);
   
   pinMode(PUSH_BUTTON, INPUT_PULLUP);
