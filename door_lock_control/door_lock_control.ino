@@ -10,16 +10,18 @@
 
 Servo myservo;
 String command = ""; // available commands: "open"
-int buttonState; // 0 = closed; 1 = open
-int previousButtonState;
-int openState = 0;
+bool buttonState; // false = closed; true = open
+bool previousButtonState;
+bool openState = false;
 
 void setup() {
   Serial.begin(SERIAL_BPS);
   myservo.attach(SERVOMOTOR_PIN);
   myservo.write(OPEN_POSITION);
+  buttonState = true;
   delay(WAIT_LONG);
   myservo.write(CLOSE_POSITION);
+  buttonState = false;
   delay(WAIT_SHORT);
   
   pinMode(PUSH_BUTTON, INPUT_PULLUP);
@@ -31,20 +33,20 @@ void loop() {
 
   // when door gets unlocked (was closed) keep door unlocked until it is opened
   buttonState = digitalRead(PUSH_BUTTON);
-  while(buttonState == 0 && openState == 1) {
+  while(buttonState == false && openState == true) {
     delay(WAIT_SHORT);
     buttonState = digitalRead(PUSH_BUTTON);
     delay(CLOSE_DELAY);
   }
 
   // add delay 
-  if(previousButtonState == 1 && buttonState == 0) {
+  if(previousButtonState == true && buttonState == false) {
     delay(CLOSE_DELAY);
   }
 
-  openState = 0;
+  openState = false;
   
-  if(buttonState == 0) {
+  if(buttonState == false) {
     delay(WAIT_SHORT);
     myservo.write(CLOSE_POSITION);
     
@@ -58,7 +60,7 @@ void loop() {
   
       if(command == "open") {
         myservo.write(OPEN_POSITION);
-        openState = 1;
+        openState = true;
       }
     }
   } else {
